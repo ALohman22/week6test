@@ -1,18 +1,20 @@
 const express = require('express')
 const app = express()
+const path = require('path')
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
 var Rollbar = require('rollbar')
 var rollbar = new Rollbar({
-  accessToken: '81258e0eb49e495c9e8eb59cdf4a212e',
-  captureUncaught: true,
-  captureUnhandledRejections: true,
+    accessToken: '81258e0eb49e495c9e8eb59cdf4a212e',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
 })
 
 
 
 app.use(express.json())
 
+app.use(express.static(`${__dirname}/public`))
 
 app.get('/api/robots', (req, res) => {
     try {
@@ -79,7 +81,6 @@ app.get('/api/player', (req, res) => {
     }
 })
 
-app.use(express.static(`${__dirname}/public`))
 
 app.listen(4000, () => {
     console.log(`Listening on 4000`)

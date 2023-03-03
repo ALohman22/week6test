@@ -5,7 +5,7 @@ require('chromedriver')
 
 const driver = new Builder().withCapabilities(Capabilities.chrome()).build()
 
-beforeEach(async () => {
+beforeAll(async () => {
     driver.get('http://localhost:4000/')
 })
 
@@ -19,11 +19,23 @@ test('Title shows up when page loads', async () => {
     expect(displayed).toBe(true)
 })
 
-test('Draw button displays "choices', async ()=> {
-    await driver.sleep(1000)
-    const button = await driver.findElement(By.id('draw')).click()
+test('Draw button displays choices', async ()=> {
+    await driver.findElement(By.id('draw')).click()
     await driver.sleep(1000) 
+    let choicesContainer = await driver.findElement(By.id('choices')).getText()
+    expect(choicesContainer).not.toEqual('')
 })
 test("add to duo", async () => {
-    const addBtn = await driver.findElement(By.xpath("//div/button")).click()
+    await driver.findElement(By.className('bot-btn')).click()
+    await driver.sleep(2000)
+    let duoContainer = await driver.findElement(By.id('player-duo')).getText()
+    expect(duoContainer).not.toEqual('')
+
+})
+
+test('bots show up on button click', async ()=> {
+    await driver.findElement(By.id('see-all')).click()
+    await driver.sleep(1000)
+    let botsDiv = await driver.findElement(By.id('all-bots')).getText()
+    expect(botsDiv).not.toEqual('')
 })
